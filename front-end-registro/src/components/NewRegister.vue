@@ -21,7 +21,7 @@
         <input id="name" type="text" placeholder="Nome">
       </div>
       <div class="input-container">
-        <label for="name">Idade (Ano de nascimento):</label>     
+        <label for="name">Ano de nascimento:</label>     
         <input id="name" type="text" placeholder="Informe o ano de nascimento">
       </div>
       <div class="input-container">

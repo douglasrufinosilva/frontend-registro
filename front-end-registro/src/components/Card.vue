@@ -1,14 +1,23 @@
 <script>
+  export default {
+    props: {
+      capivara: {
+        type: Object,
+        required: true,
+      },
+    },
+  }
+  
 </script>
 
 <template>
   <div class="container">
     <div class="img-container">
-      <img src="@/assets/image/tic-tac-toe.jpeg" alt="">
+      <img :src="capivara.fotoPerfil" alt="">
     </div>
 
     <div class="info-container">
-      <span>Helena</span>
+      <span>{{ capivara.nome }}</span>
       <a href="#">Detalhes</a>
     </div>
   </div>
