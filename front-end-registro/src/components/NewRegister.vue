@@ -12,17 +12,29 @@
   const dieta  = ref('')
   const observacao  = ref('')
 
+  const onFileChange = (e) => {
+    fotoPerfil.value = e.target.files[0]
+  }
+
   const register = async () => {
+
+    const formData = new FormData()
+
+    formData.append('fotoPerfil', fotoPerfil.value)
+    formData.append('nome', nome.value)
+    formData.append('idade', idade.value)
+    formData.append('peso', peso.value)
+    formData.append('statusSaude', statusSaude.value)
+    formData.append('habitat', habitat.value)
+    formData.append('comportamento', comportamento.value)
+    formData.append('dieta', dieta.value)
+    formData.append('observacao', observacao.value)
+
     try {
-      const response = await api.post("/", {
-        nome: nome.value,
-        idade: idade.value,
-        peso: peso.value,
-        statusSaude: statusSaude.value,
-        habitat: habitat.value,
-        comportamento: comportamento.value,
-        dieta: dieta.value,
-        observacao: observacao.value
+      const response = await api.post("/", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
 
     } catch (error) {
@@ -36,7 +48,7 @@
 <template>
   <div class="aside-container">    
     <div class="filter">
-      <label for="habitat-filter">Filtrar por habitat</label>
+      <label for="habitat-filter">Filtrar por habitat:</label>
       <select name="habitat-filter" id="">
         <option value="">Selecione</option>
       </select>
@@ -49,36 +61,41 @@
     
     <div class="container">
       <div class="input-container">
+        <label for="name">Foto de Perfil:</label>     
+        <input id="fotoPerfil" type="file" @change="onFileChange">
+      </div>
+      <div class="input-container">
         <label for="name">Nome:</label>     
-        <input id="name" type="text" placeholder="Nome" v-model="nome">
+        <input id="nome" type="text" placeholder="Nome" v-model="nome">
       </div>
       <div class="input-container">
         <label for="name">Ano de nascimento:</label>     
-        <input id="name" type="number" placeholder="Informe o ano de nascimento" v-model="idade">
+        <input id="idade" type="number" placeholder="Informe o ano de nascimento" v-model="idade">
       </div>
       <div class="input-container">
         <label for="name">Peso:</label>     
-        <input id="name" type="number" placeholder="Peso" v-model="peso">
+        <input id="peso" type="number" placeholder="Peso" v-model="peso">
       </div>
       <div class="input-container">
         <label for="name">Status de Saúde:</label>     
-        <input id="name" type="text" placeholder="Status de Saúde" v-model="statusSaude">
+        <input id="statusSaude" type="text" placeholder="Status de Saúde" v-model="statusSaude">
       </div>
       <div class="input-container">
         <label for="name">Habitat:</label>     
-        <input id="name" type="text" placeholder="Habitat" v-model="habitat">
+        <input id="habitat" type="text" placeholder="Habitat" v-model="habitat">
       </div>
       <div class="input-container">
         <label for="name">Comportamento:</label>     
-        <input id="name" type="text" placeholder="Comportamento" v-model="comportamento">
+        <input id="comportamento" type="text" placeholder="Comportamento" v-model="comportamento">
       </div>
       <div class="input-container">
         <label for="name">Dieta:</label>     
-        <input id="name" type="text" placeholder="Dieta" v-model="dieta">
+        <input id="dieta" type="text" placeholder="Dieta" v-model="dieta">
       </div>
       <div class="input-container">
         <label for="name">Observações:</label>     
-        <textarea placeholder="Mais detalhes sobre a capivara" rows="6" v-model="observacao"/>
+        <textarea id="observacao" placeholder="Mais detalhes sobre a capivara" rows="6" v-model="observacao">
+        </textarea>
       </div>
     </div>
 
@@ -158,5 +175,10 @@
 
     border: none;
     cursor: pointer;
+  }
+
+  #fotoPerfil {
+    padding: 0;
+    margin-top: 5px;
   }
 </style>
