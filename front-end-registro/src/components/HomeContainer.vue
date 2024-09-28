@@ -1,17 +1,18 @@
 <script setup>
   import Card from './Card.vue'
   import { api } from '@/services/api'
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
 
-const capivaras = ref([])
+const data = ref([])
+const currentPage = ref(1)
+const cardsPerPage = ref(9) 
 
 const fetchData = async () => {
   try {
     
     const response = await api.get("/")
-    capivaras.value = response.data
+    data.value = response.data
 
-    console.log(capivaras)
   } catch (error) {
     console.error("Erro ao buscar dados da api.")
   }
@@ -20,11 +21,36 @@ const fetchData = async () => {
 onMounted(() => {
   fetchData()
 })
+
+const totalPages = computed(() => {
+  return Math.ceil(data.value.length / cardsPerPage.value)
+})
+
+const paginatedCards = computed(() => {
+  const start = (currentPage.value - 1) * cardsPerPage.value
+  return data.value.slice(start, start + cardsPerPage.value)
+})
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value += 1
+  }
+}
+
+const previousPage = () => {
+  if(currentPage.value > 1) {
+    currentPage.value -= 1
+  }
+}
 </script>
 
 <template>
     <div class="card-container">      
-      <Card v-for="capivara in capivaras" :key="capivara.id" :capivara="capivara"/>
+      <Card v-for="capivara in paginatedCards" :key="capivara.id" :capivara="capivara"/>
+      <div class="pagination">
+        <button @click="previousPage"><</button>
+        <button @click="nextPage">></button>
+      </div> 
     </div>
 </template>
 
@@ -35,9 +61,39 @@ onMounted(() => {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    justify-items: center;
+
     padding: 35px 20px;
 
+    position: relative;
+
     background-color: #F3ECE3;
+  }
+
+  .pagination {
+    position: absolute;
+
+    display: flex;
+    column-gap: 1rem;
+
+    bottom: 20px;
+    left: 50%;
+
+    transform: translate(-50%);
+  }
+
+  button {
+    width: 30px;
+    height: 30px;
+    margin-top: 30px;
+    align-self: center;
+
+    
+    border-radius: 50%;
+    background-color: #F68C67;
+
+    border: none;
+    cursor: pointer;
   }
   
 </style>

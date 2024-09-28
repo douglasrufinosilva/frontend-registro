@@ -1,4 +1,36 @@
-<script>
+<script setup>
+  import { ref } from 'vue';
+  import { api } from '@/services/api'
+
+  const fotoPerfil = ref(null)
+  const nome = ref('')
+  const idade = ref('')
+  const peso  = ref('')
+  const statusSaude = ref('')
+  const habitat  = ref('')
+  const comportamento  = ref('')
+  const dieta  = ref('')
+  const observacao  = ref('')
+
+  const register = async () => {
+    try {
+      const response = await api.post("/", {
+        nome: nome.value,
+        idade: idade.value,
+        peso: peso.value,
+        statusSaude: statusSaude.value,
+        habitat: habitat.value,
+        comportamento: comportamento.value,
+        dieta: dieta.value,
+        observacao: observacao.value
+      })
+
+    } catch (error) {
+      console.error("Erro ao registrar capivara.")
+    }
+  }
+
+
 </script>
 
 <template>
@@ -18,39 +50,39 @@
     <div class="container">
       <div class="input-container">
         <label for="name">Nome:</label>     
-        <input id="name" type="text" placeholder="Nome">
+        <input id="name" type="text" placeholder="Nome" v-model="nome">
       </div>
       <div class="input-container">
         <label for="name">Ano de nascimento:</label>     
-        <input id="name" type="text" placeholder="Informe o ano de nascimento">
+        <input id="name" type="number" placeholder="Informe o ano de nascimento" v-model="idade">
       </div>
       <div class="input-container">
         <label for="name">Peso:</label>     
-        <input id="name" type="text" placeholder="Peso">
+        <input id="name" type="number" placeholder="Peso" v-model="peso">
       </div>
       <div class="input-container">
         <label for="name">Status de Saúde:</label>     
-        <input id="name" type="text" placeholder="Status de Saúde">
+        <input id="name" type="text" placeholder="Status de Saúde" v-model="statusSaude">
       </div>
       <div class="input-container">
         <label for="name">Habitat:</label>     
-        <input id="name" type="text" placeholder="Habitat">
+        <input id="name" type="text" placeholder="Habitat" v-model="habitat">
       </div>
       <div class="input-container">
         <label for="name">Comportamento:</label>     
-        <input id="name" type="text" placeholder="Comportamento">
+        <input id="name" type="text" placeholder="Comportamento" v-model="comportamento">
       </div>
       <div class="input-container">
         <label for="name">Dieta:</label>     
-        <input id="name" type="text" placeholder="Dieta">
+        <input id="name" type="text" placeholder="Dieta" v-model="dieta">
       </div>
       <div class="input-container">
         <label for="name">Observações:</label>     
-        <textarea placeholder="Mais detalhes sobre a capivara" rows="6"/>
+        <textarea placeholder="Mais detalhes sobre a capivara" rows="6" v-model="observacao"/>
       </div>
     </div>
 
-    <button>Registrar</button>
+    <button @click="register">Registrar</button>
   </div>
 </template>
 
