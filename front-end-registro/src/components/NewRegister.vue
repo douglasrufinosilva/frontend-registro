@@ -37,6 +37,18 @@
         }
       })
 
+      capivaras.value.push(response.data)
+
+      nome.value = ''
+      idade.value = ''
+      peso.value = ''
+      statusSaude.value = ''
+      habitat.value = ''
+      comportamento.value = ''
+      dieta.value = ''
+      observacao.value = ''
+      fotoPerfil.value = ''
+
     } catch (error) {
       console.error("Erro ao registrar capivara.")
     }
