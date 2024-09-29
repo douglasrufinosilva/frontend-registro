@@ -1,6 +1,4 @@
 <script>
-  import { api } from '@/services/api';
-
   export default {
     props: {
       capivara: {
@@ -8,13 +6,18 @@
         required: true,
       },
     },
+    methods: {
+      handleDelete() {
+        this.$emit('delete', this.capivara.id)
+      }
+    }
   }
   
 </script>
 
 <template>
   <div class="container">
-    <button class="delete">X</button>
+    <button class="delete" @click="handleDelete">X</button>
     <div class="img-container">
       <img :src="capivara.fotoPerfil" alt="">
     </div>

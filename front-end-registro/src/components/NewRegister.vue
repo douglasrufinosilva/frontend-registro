@@ -1,7 +1,8 @@
 <script setup>
   import { ref } from 'vue';
   import { api } from '@/services/api'
-
+  import { eventBus } from '@/services/eventBud';
+  
   const fotoPerfil = ref(null)
   const nome = ref('')
   const idade = ref('')
@@ -37,7 +38,7 @@
         }
       })
 
-      capivaras.value.push(response.data)
+      eventBus.emit('registerCreated', true)
 
       nome.value = ''
       idade.value = ''
