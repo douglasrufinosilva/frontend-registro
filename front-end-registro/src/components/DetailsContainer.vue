@@ -104,6 +104,7 @@ const cancelEdit = () => {
   
           <div class="info-container">
 
+            <router-link class="back-btn" :to="{ name: 'home' }">Voltar</router-link>
             <button v-if="!isEditing" @click="editRegister" class="edit-btn">Editar</button>
             <button v-if="isEditing" @click="updateRegister" class="edit-btn">Salvar</button>
             <button v-if="isEditing" @click="cancelEdit" class="cancel-btn">Cancelar</button>
@@ -184,6 +185,22 @@ const cancelEdit = () => {
     position: absolute;
     top: 48px;
     right: 28px;
+  }
+
+  .back-btn {
+    width: 50px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+
+    background-color: #F68C67;
+    color: black;
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-decoration: none;
+    border: 1px solid black;
+
+    cursor: pointer;
   }
 
   .add-img-btn {
