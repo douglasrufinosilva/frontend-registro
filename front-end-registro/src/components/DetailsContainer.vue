@@ -6,18 +6,68 @@
   const data = ref(null)
   const route = useRoute()
   const isEditing = ref(false)
+  const currentYear = ref(new Date().getFullYear())
+
+  const fotoPerfil = ref(null)
+  const peso  = ref('')
+  const statusSaude = ref('')
+  const habitat  = ref('')
+  const comportamento  = ref('')
+  const dieta  = ref('')
+  const observacao  = ref('')
+  
+  const onFileChange = (e) => {
+    fotoPerfil.value = e.target.files[0]
+  }
 
   const fetchData = async () => {
     
     try {
       const id = route.params.id
-
+      
       const response = await api.get(`/detalhes/${id}`)
       data.value = response.data[0]
 
+      peso.value = data.value.peso || ''
+      statusSaude.value = data.value.statusSaude || ''
+      habitat.value = data.value.habitat || ''
+      comportamento.value = data.value.comportamento || ''
+      dieta.value = data.value.dieta || ''
+      observacao.value = data.value.observacao || ''
+      
       console.log(data)
     } catch (error) {
       console.error("Erros ao buscar informações do registro")
+    }
+  }
+  
+
+  const updateRegister = async () => {
+
+    const formData = new FormData()
+    
+    formData.append('fotoPerfil', fotoPerfil.value)
+    formData.append('peso', peso.value)
+    formData.append('statusSaude', statusSaude.value)
+    formData.append('habitat', habitat.value)
+    formData.append('comportamento', comportamento.value)
+    formData.append('dieta', dieta.value)
+    formData.append('observacao', observacao.value)
+    
+    try {
+      const id = route.params.id
+      
+      const response = await api.put(`/detalhes/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      isEditing.value = false
+      fetchData()
+
+    } catch (error) {
+      console.error("Erro ao atualizar registro.")
     }
   }
 
@@ -28,6 +78,12 @@
 const editRegister = () => {
   isEditing.value = true
 }
+
+const cancelEdit = () => {
+  isEditing.value = false
+}
+
+
 </script>
 
 <template>
@@ -39,20 +95,25 @@ const editRegister = () => {
           <div class="img-container">
             <img v-if="data.fotoPerfil" :src="data.fotoPerfil" alt="">
             <img v-else src="../assets/image/no-image.jpg" alt="">
+
+          </div>
+          <div v-if="isEditing" class="file-container">
+            <input id="file-img" class="input-img" v-if="isEditing" type="file" @change="onFileChange">
+            <label class="add-img-btn" for="file-img">Add foto</label>
           </div>
   
           <div class="info-container">
 
             <button v-if="!isEditing" @click="editRegister" class="edit-btn">Editar</button>
-            <button v-if="isEditing" @click="editRegister" class="edit-btn">Salvar</button>
+            <button v-if="isEditing" @click="updateRegister" class="edit-btn">Salvar</button>
+            <button v-if="isEditing" @click="cancelEdit" class="cancel-btn">Cancelar</button>
 
-            <div class="data-container">
+            <div v-if="!isEditing" class="data-container">
               <strong>Idade: </strong>
-              <div v-if="!isEditing">
-                <span v-if="data.idade">{{ data.idade }}</span>
+              <div>
+                <span v-if="data.idade">{{ currentYear - data.idade }}</span>
                 <span v-else >Nenhuma informação registrada</span>
               </div>
-              <input v-else id="idade" type="number" v-model="idade">
             </div>
 
             <div class="data-container">
@@ -69,8 +130,8 @@ const editRegister = () => {
               <div v-if="!isEditing">
                 <span v-if="data.statusSaude">{{ data.statusSaude }}</span>
                 <span v-else >Nenhuma informação registrada</span>
-                <input v-else id="statusSaude" type="text" v-model="statusSaude">
               </div>
+              <input v-else id="statusSaude" type="text" v-model="statusSaude">
             </div>
 
             <div class="data-container">
@@ -106,7 +167,7 @@ const editRegister = () => {
                 <span v-if="data.observacao">{{ data.observacao }}</span>
                 <span v-else >Nenhuma informação registrada</span>
               </div>
-              <textarea id="observacao" rows="3" v-model="observacao">
+              <textarea v-else id="observacao" rows="3" v-model="observacao">
               </textarea>
             </div>
 
@@ -119,11 +180,47 @@ const editRegister = () => {
 
 <style scoped>
 
+  .file-container {
+    position: absolute;
+    top: 48px;
+    right: 28px;
+  }
+
+  .add-img-btn {
+    width: 70px;
+    background-color: #F68C67;
+    color: black;
+    padding: 5px 10px;  
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+
+  .input-img {
+    display: none;
+  }
+
   .edit-btn {
     width: 50px;
     position: absolute;
     top: 275px;
     right: 20px;
+
+    background-color: #F68C67;
+    color: black;
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-decoration: none;
+    border: 1px solid black;
+
+    cursor: pointer;
+  }
+
+  .cancel-btn {
+    width: 70px;
+    position: absolute;
+    top: 275px;
+    right: 80px;
 
     background-color: #F68C67;
     color: black;
@@ -172,6 +269,9 @@ const editRegister = () => {
   }
 
   .img-container {
+    display: flex;
+    column-gap: 1rem;
+
     width: 300px;
     height: 200px;
     overflow: hidden;
