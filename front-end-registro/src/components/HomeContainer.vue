@@ -1,10 +1,12 @@
 <script setup>
   import Card from './Card.vue'
   import { api } from '@/services/api'
-import { eventBus } from '@/services/eventBud';
-  import { ref, onMounted, computed } from 'vue'
+  import { eventBus } from '@/services/eventBud';
+  import { ref, onMounted, computed, watch } from 'vue'
 
   const data = ref([])
+  const habitats = ref([])
+  const selectedHabitat = ref('')
   const currentPage = ref(1)
   const cardsPerPage = ref(9) 
 
@@ -14,6 +16,9 @@ import { eventBus } from '@/services/eventBud';
       const response = await api.get("/")
       data.value = response.data
 
+      const habitatResponse = await api.get("/habitat")
+      habitats.value = habitatResponse.data
+
     } catch (error) {
       console.error("Erro ao buscar dados da api.")
     }
@@ -22,7 +27,7 @@ import { eventBus } from '@/services/eventBud';
   const deleteCard = async (id) => {
     try {
       await api.delete(`/${id}`)
-      fetchData()
+      await fetchData()
       
     } catch(error) {
       console.error("Erro ao excluir card.")
@@ -37,13 +42,21 @@ import { eventBus } from '@/services/eventBud';
     })
   })
 
+  const filteredCards = computed( () => {
+    if(!selectedHabitat.value) {
+      return data.value
+    }
+
+    return data.value.filter(item => item.habitat === selectedHabitat.value)
+  })
+
   const totalPages = computed(() => {
-    return Math.ceil(data.value.length / cardsPerPage.value)
+    return Math.ceil(filteredCards.value.length / cardsPerPage.value)
   })
 
   const paginatedCards = computed(() => {
     const start = (currentPage.value - 1) * cardsPerPage.value
-    return data.value.slice(start, start + cardsPerPage.value)
+    return filteredCards.value.slice(start, start + cardsPerPage.value)
   })
 
   const nextPage = () => {
@@ -57,6 +70,10 @@ import { eventBus } from '@/services/eventBud';
       currentPage.value -= 1
     }
   }
+
+  watch(selectedHabitat, () => {
+    currentPage.value = 1
+  })
 </script>
 
 <template>
@@ -66,6 +83,13 @@ import { eventBus } from '@/services/eventBud';
         <button @click="previousPage"><</button>
         <button @click="nextPage">></button>
       </div> 
+      <div class="filter">
+        <label for="habitat-filter">Filtrar por habitat:</label>
+        <select name="habitat-filter" v-model="selectedHabitat">
+          <option value="">Selecione</option>
+          <option v-for="habitat in habitats" :key="habitat" :value="habitat">{{ habitat }}</option>
+        </select>
+      </div>
     </div>
 </template>
 
@@ -92,9 +116,27 @@ import { eventBus } from '@/services/eventBud';
     column-gap: 1rem;
 
     bottom: 20px;
-    left: 50%;
+    left: 20px;
+  }
 
-    transform: translate(-50%);
+  .filter {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+    bottom: 20px;
+    right: 20px;
+  }
+
+  select {
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 0 10px;
+    outline: none;
+
+    background-color: #F68C67;
   }
 
   button {

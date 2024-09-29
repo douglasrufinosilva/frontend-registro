@@ -60,16 +60,6 @@
 
 <template>
   <div class="aside-container">    
-    <div class="filter">
-      <label for="habitat-filter">Filtrar por habitat:</label>
-      <select name="habitat-filter" id="">
-        <option value="">Selecione</option>
-      </select>
-    </div>
-
-    <div class="separator">      
-    </div>
-
     <h3>Novo registro</h3>
     
     <div class="container">
@@ -117,13 +107,6 @@
 </template>
 
 <style scoped>
-
-  .filter {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-  }
-
   h3 {
     text-align: center;
     margin-bottom: 10px;
