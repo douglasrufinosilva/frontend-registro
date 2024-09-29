@@ -5,6 +5,7 @@
 
   const data = ref(null)
   const route = useRoute()
+  const isEditing = ref(false)
 
   const fetchData = async () => {
     
@@ -22,7 +23,11 @@
 
   onMounted(() => {
     fetchData()
-  }) 
+  })
+
+const editRegister = () => {
+  isEditing.value = true
+}
 </script>
 
 <template>
@@ -37,41 +42,74 @@
           </div>
   
           <div class="info-container">
-            <span>
+
+            <button v-if="!isEditing" @click="editRegister" class="edit-btn">Editar</button>
+            <button v-if="isEditing" @click="editRegister" class="edit-btn">Salvar</button>
+
+            <div class="data-container">
               <strong>Idade: </strong>
-              <span v-if="data.idade">{{ data.idade }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.idade">{{ data.idade }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <input v-else id="idade" type="number" v-model="idade">
+            </div>
+
+            <div class="data-container">
               <strong>Peso: </strong>
-              <span v-if="data.peso">{{ data.peso }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.peso">{{ data.peso }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <input v-else id="peso" type="number" v-model="peso">
+            </div>
+
+            <div class="data-container">
               <strong>Status de Saúde: </strong>
-              <span v-if="data.statusSaude">{{ data.statusSaude }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.statusSaude">{{ data.statusSaude }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+                <input v-else id="statusSaude" type="text" v-model="statusSaude">
+              </div>
+            </div>
+
+            <div class="data-container">
               <strong>Habitat: </strong>
-              <span v-if="data.habitat">{{ data.habitat }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.habitat">{{ data.habitat }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <input v-else id="habitat" type="text" v-model="habitat">
+            </div>
+
+            <div class="data-container">
               <strong>Comportamento: </strong>
-              <span v-if="data.comportamento">{{ data.comportamento }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.comportamento">{{ data.comportamento }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <input v-else id="comportamento" type="text" v-model="comportamento">
+            </div>
+
+            <div class="data-container">
               <strong>Dieta: </strong>
-              <span v-if="data.dieta">{{ data.dieta }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
-            <span>
+              <div v-if="!isEditing">
+                <span v-if="data.dieta">{{ data.dieta }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <input v-else id="dieta" type="text" v-model="dieta">
+            </div>
+
+            <div class="data-container">
               <strong>Observação: </strong>
-              <span v-if="data.observacao">{{ data.observacao }}</span>
-              <span v-else >Nenhuma informação registrada</span>
-            </span>
+              <div v-if="!isEditing">
+                <span v-if="data.observacao">{{ data.observacao }}</span>
+                <span v-else >Nenhuma informação registrada</span>
+              </div>
+              <textarea id="observacao" rows="3" v-model="observacao">
+              </textarea>
+            </div>
+
           </div>
         </div>
         <a>Galeria</a>
@@ -80,6 +118,28 @@
 </template>
 
 <style scoped>
+
+  .edit-btn {
+    width: 50px;
+    position: absolute;
+    top: 275px;
+    right: 20px;
+
+    background-color: #F68C67;
+    color: black;
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-decoration: none;
+    border: 1px solid black;
+
+    cursor: pointer;
+  }
+
+  .data-container {
+    display: flex;
+    flex-direction: column;
+  }
+
   .details {
     width: 650px;
     min-height: calc(100vh - 200px);
@@ -166,6 +226,20 @@
     font-size: 15px;
 
     margin-top: 15px;
+  }
+
+  input, select {
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 0 10px;
+    outline: none;
+  }
+
+  textarea {
+    max-width: 240px;
+    padding: 10px;
+    outline: none;
   }
 
 </style>
