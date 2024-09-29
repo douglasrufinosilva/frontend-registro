@@ -19,6 +19,12 @@
 
   const register = async () => {
 
+    if(!nome.value || !idade.value || !peso.value) {
+      alert("Nome, idade e peso são obrigatótios.")
+      
+      return
+    }
+
     const formData = new FormData()
 
     formData.append('fotoPerfil', fotoPerfil.value)

@@ -77,7 +77,7 @@
 </script>
 
 <template>
-    <div class="card-container">      
+    <div class="card-container" v-if="data.length > 0">      
       <Card v-for="capivara in paginatedCards" :key="capivara.id" :capivara="capivara" @delete="deleteCard"/>
       <div class="pagination">
         <button @click="previousPage"><</button>
@@ -89,6 +89,13 @@
           <option value="">Selecione</option>
           <option v-for="habitat in habitats" :key="habitat" :value="habitat">{{ habitat }}</option>
         </select>
+      </div>
+    </div>
+    
+    <div class="empty-container" v-else>      
+      <div class="no-register">
+        <span>Sem registros</span>
+        <img src="../assets/image/sem-dados.png" alt="">
       </div>
     </div>
 </template>
@@ -107,6 +114,17 @@
     position: relative;
 
     background-color: #F3ECE3;
+  }
+
+  .empty-container {
+    width: 650px;
+    min-height: calc(100vh - 200px);
+    display: flex;
+
+    background-color: #F3ECE3;
+
+    justify-content: center;
+    align-items: center;
   }
 
   .pagination {
@@ -153,4 +171,19 @@
     cursor: pointer;
   }
   
+  .no-register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-register span {
+    font-size: 35px;
+    color: red;
+  }
+
+  .no-register img {
+    width: 100px;
+  }
 </style>
