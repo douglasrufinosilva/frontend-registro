@@ -174,7 +174,6 @@ const cancelEdit = () => {
 
           </div>
         </div>
-        <a>Galeria</a>
       </div>
   </div>
 </template>

@@ -9,7 +9,7 @@ import DetailsContainer from '@/components/DetailsContainer.vue';
     </div>
 </template>
 
-<style>
+<style scoped>
   .empty-container {
     width: 650px;
     min-height: calc(100vh - 200px);
