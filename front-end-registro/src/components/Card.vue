@@ -24,7 +24,7 @@
 
     <div class="info-container">
       <span>{{ capivara.nome }}</span>
-      <a href="#">Detalhes</a>
+      <router-link :to="{ name: 'details', params: { id: capivara.id } }">Detalhes</router-link>
     </div>
   </div>
 </template>
