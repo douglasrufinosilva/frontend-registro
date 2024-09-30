@@ -1,29 +1,25 @@
-# front-end-registro
+## Registro de capivaras (front-end)
 
-This template should help get you started developing with Vue 3 in Vite.
+### Essa é a parte visual da da api de registro de capivaras. O projeto foi feito utilizando Vue.js. E está integrado com a api e fazendo consumo dela para exibir os dados. A aplicação está bem intuitiva e de fácil utilização.
 
-## Recommended IDE Setup
+## Para rodar a aplicação voce precisa:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- NodeJs
+- Gerenciados de pacores (npm)
 
-## Customize configuration
+### Como obter o projeto.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1 - git clone https://github.com/douglasrufinosilva/frontend-registro.git
+2 - cd front-end-registro
+3 - Instale as dependências (npm install)
+4 - npm run dev
 
-## Project Setup
+### As funcionalidades são:
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+- Visualizar todos os registros que estão renderizados em cards.
+- Criar Novos registros na tela princopal.
+- Exxluir um registro (clicar no X no card)
+- Filtrar os registros por habitat
+- E caso tenha muitos registros, voce pode usar a paginação para navegar entre eles.
+- Ver mais detalhes do registro ao clicar botão de mais detalhes.
+- Editar registros existem (na pagina de detalhes)
