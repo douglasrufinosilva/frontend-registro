@@ -14,6 +14,8 @@
 - Instale as dependências (npm install)
 - npm run dev
 
+- Obs: A rota passada no axios para integração com a api é 'http://localhost:3000'. Ponha essa porta (3000) no .env do backend.
+
 ### As funcionalidades são:
 
 - Visualizar todos os registros que estão renderizados em cards.
