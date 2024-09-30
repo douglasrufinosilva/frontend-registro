@@ -1,4 +1,4 @@
-## Registro de capivaras (front-end)
+### Registro de capivaras (front-end)
 
 ### Essa é a parte visual da da api de registro de capivaras. O projeto foi feito utilizando Vue.js. E está integrado com a api e fazendo consumo dela para exibir os dados. A aplicação está bem intuitiva e de fácil utilização.
 
@@ -9,10 +9,10 @@
 
 ### Como obter o projeto.
 
-1 - git clone https://github.com/douglasrufinosilva/frontend-registro.git
-2 - cd front-end-registro
-3 - Instale as dependências (npm install)
-4 - npm run dev
+- git clone https://github.com/douglasrufinosilva/frontend-registro.git
+- cd front-end-registro
+- Instale as dependências (npm install)
+- npm run dev
 
 ### As funcionalidades são:
 
