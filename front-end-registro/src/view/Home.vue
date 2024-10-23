@@ -15,8 +15,6 @@
     margin: 0 auto;
     display: grid;
     grid-template-areas:  
-                          "home-container aside-container"
-                          "home-container aside-container"
                           "home-container aside-container";
   }
 </style>

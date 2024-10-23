@@ -14,10 +14,22 @@
     try {
       
       const response = await api.get("/")
-      data.value = response.data
+
+      if(response.data.length === 0) {
+        console.log("Nenhum registro no banco de dados.")
+        data.value = []
+      } else {        
+        data.value = response.data
+      }
 
       const habitatResponse = await api.get("/habitat")
-      habitats.value = habitatResponse.data
+
+      if(habitatResponse.data.length === 0) {
+        console.log("Nenhum registro no banco de dados.")
+        habitatResponse.data = []
+      } else {        
+        habitats.value = habitatResponse.data
+      }
 
     } catch (error) {
       console.error("Erro ao buscar dados da api.")
